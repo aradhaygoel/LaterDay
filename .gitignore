@@ -1,0 +1,9 @@
+# Local editor and operating-system files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Keep future build/dependency output out of the source repository
+node_modules/
+dist/

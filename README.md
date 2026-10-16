@@ -2,7 +2,22 @@
 
 Laterday is a quiet, local-first save-for-later inbox for notes, links, and images. This project completes **Stage 1**: one device, no account, no backend.
 
-## Run it
+## Publish on GitHub
+
+1. Create an empty GitHub repository (for example, `laterday`) without adding a README or license.
+2. From this project folder, connect it and push the existing history:
+
+   ```powershell
+   git remote add origin https://github.com/YOUR-USERNAME/YOUR-REPOSITORY.git
+   git push -u origin main
+   ```
+
+3. In the repository, open **Settings → Pages** and select **GitHub Actions** as the build and deployment source.
+4. The included workflow deploys the app on each push to `main`. The published URL appears in the workflow run and the Pages settings.
+
+The app is static and needs no secrets, backend, or build step. GitHub Pages serves it over HTTPS so it can be installed on a phone. Saved items stay in the browser on the device where they were created; publishing the app does not upload those saves.
+
+## Run it locally
 
 The app is a static progressive web app. Serve this folder from a local HTTP server (service workers and install prompts need HTTP or HTTPS):
 
@@ -10,7 +25,7 @@ The app is a static progressive web app. Serve this folder from a local HTTP ser
 py -m http.server 8000
 ```
 
-Open `http://localhost:8000` on a computer, or open the same address from a phone on the same Wi-Fi using your computer's LAN IP. For phone installation, host the folder on any static HTTPS host and choose **Add to Home Screen** in the browser. There is no build step or dependency installation.
+Open `http://localhost:8000` on a computer. For phone installation, publish to GitHub Pages (or another static HTTPS host) and choose **Add to Home Screen** in the browser. There is no build step or dependency installation.
 
 ## What’s here
 
