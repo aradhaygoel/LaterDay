@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f7f6f2" />
+  <meta name="description" content="A little place for everything worth coming back to." />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>Laterday — Keep the good stuff close</title>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#" aria-label="Laterday home">
+        <span class="brand-mark"><svg viewBox="0 0 28 28" fill="none" aria-hidden="true"><path d="M14 3.5 22 7v6.1c0 5.2-3.4 9.2-8 11.4-4.6-2.2-8-6.2-8-11.4V7l8-3.5Z" fill="currentColor"/><path d="M10 13.8 13 17l5.8-6" stroke="#F7F6F2" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="brand-name">laterday<span class="brand-period">.</span><small>YOUR QUIET CORNER</small></span>
+      </a>
+      <button class="new-button" id="newItem"><span class="plus">＋</span> Save something <kbd>N</kbd></button>
+      <div class="nav-label">YOUR SPACE</div>
+      <nav class="main-nav" aria-label="Main navigation">
+        <button class="nav-item active" data-view="inbox"><span class="nav-icon">▤</span> All saves <span class="nav-count" id="inboxCount">0</span></button>
+        <button class="nav-item" data-view="pinned"><span class="nav-icon">✳</span> Favorites</button>
+        <button class="nav-item" data-view="archive"><span class="nav-icon">▣</span> Archived</button>
+      </nav>
+      <div class="tag-section"><div class="nav-label">YOUR TAGS <button id="addTag" class="tiny-add" aria-label="Add tag">＋</button></div><div id="tagList" class="tag-list"></div></div>
+      <div class="sidebar-bottom"><span class="local-dot"></span><span>Just for you, on this device.</span></div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar"><button class="menu-button" id="menuButton" aria-label="Open menu">☰</button><div class="breadcrumb">YOUR LIBRARY <span>/</span> <b id="breadcrumbView">ALL SAVES</b></div><div class="top-actions"><button class="icon-button" id="themeToggle" aria-label="Toggle dark mode" title="Toggle dark mode">◐</button><div class="avatar">Y</div></div></header>
+      <section class="page-heading"><div class="heading-copy"><div class="eyebrow"><span class="sparkle">✳</span> YOUR PERSONAL LIBRARY</div><h1 id="pageTitle">Good things,<br class="mobile-break"/> saved for later<span>.</span></h1><p id="pageSubtitle">The ideas, places, and little things you’d hate to lose.</p></div><button class="heading-add" id="headingAdd"><span>＋</span> Add to your library</button></section>
+      <section class="toolbar"><div class="search-wrap"><span class="search-icon">⌕</span><input id="searchInput" type="search" placeholder="Find something you saved..." aria-label="Search your saved items" /><kbd>⌘ K</kbd></div><div class="filter-controls"><button class="filter-button" id="typeFilter"><span class="filter-symbol">☷</span> <span id="typeFilterLabel">All types</span> <span class="chevron">⌄</span></button><div class="sort-wrap"><span>Sort by</span><select id="sortSelect" aria-label="Sort items"><option value="newest">Recently added</option><option value="oldest">Oldest first</option><option value="title">Title A–Z</option></select></div></div></section>
+      <div class="active-filter-row" id="activeFilterRow" hidden><span id="activeFilterLabel"></span><button id="clearFilter">Clear filter ×</button></div>
+      <section class="results-bar"><p id="resultsLabel">YOUR COLLECTION <span>·</span> <b>0 SAVES</b></p><button id="viewToggle" class="view-toggle" aria-label="Toggle list view" title="Toggle list view"><span>▦</span></button></section>
+      <section class="item-grid" id="itemGrid" aria-live="polite"></section>
+      <footer class="footer"><span>Made for the things worth remembering.</span><span><span class="local-dot"></span> SAVED ON THIS DEVICE</span></footer>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <dialog id="itemDialog" class="item-dialog"><form id="itemForm" novalidate>
+    <div class="dialog-top"><div class="dialog-kicker" id="dialogKicker">A NEW LITTLE KEEP</div><button type="button" class="close-button" id="closeDialog" aria-label="Close">×</button></div>
+    <h2 id="dialogTitle">Save for later<span>.</span></h2><p class="dialog-subtitle">A thought, a link, a moment — whatever you want to find again.</p>
+    <div class="type-picker" role="group" aria-label="Item type"><button type="button" class="type-choice selected" data-type="note"><span>✎</span> Note</button><button type="button" class="type-choice" data-type="link"><span>↗</span> Link</button><button type="button" class="type-choice" data-type="image"><span>▧</span> Image</button></div>
+    <input type="hidden" id="itemType" value="note" /><input type="hidden" id="editId" />
+    <label class="field-label" for="itemTitle">GIVE IT A NAME</label><input class="form-input" id="itemTitle" maxlength="120" placeholder="A name you’ll remember..." />
+    <div id="noteFields"><label class="field-label" for="itemContent">YOUR NOTE</label><textarea class="form-input textarea" id="itemContent" maxlength="10000" placeholder="Get it out of your head and somewhere safe..." rows="5"></textarea></div>
+    <div id="linkFields" hidden><label class="field-label" for="itemUrl">THE LINK</label><input class="form-input" id="itemUrl" type="url" placeholder="https://something.worth.reading" /><label class="field-label" for="linkNote">A NOTE (OPTIONAL)</label><textarea class="form-input textarea" id="linkNote" maxlength="10000" placeholder="Why did you save this?" rows="3"></textarea></div>
+    <div id="imageFields" hidden><label class="field-label" for="imageFile">YOUR IMAGE</label><label class="upload-box" for="imageFile"><span class="upload-icon">＋</span><span id="uploadLabel">Choose an image from your device</span><small>JPG, PNG, GIF or WebP · max 5 MB</small></label><input id="imageFile" type="file" accept="image/*" hidden /><div class="image-preview-wrap" id="imagePreviewWrap" hidden><img id="imagePreview" alt="Selected image preview" /><button type="button" id="removeImage" class="remove-image">Remove image</button></div><label class="field-label" for="imageNote">A NOTE (OPTIONAL)</label><textarea class="form-input textarea" id="imageNote" maxlength="10000" placeholder="What should you remember about this?" rows="2"></textarea></div>
+    <label class="field-label" for="itemTags">ADD SOME TAGS <span class="optional">OPTIONAL · SEPARATE WITH COMMAS</span></label><input class="form-input" id="itemTags" maxlength="300" placeholder="reading, inspiration, someday" />
+    <p class="form-error" id="formError" role="alert"></p>
+    <div class="dialog-actions"><button type="button" class="cancel-button" id="cancelDialog">Never mind</button><button type="submit" class="save-button" id="saveButton">Save for later <span>↗</span></button></div>
+  </form></dialog>
+  <dialog id="detailDialog" class="detail-dialog"><div class="detail-top"><span class="detail-type" id="detailType"></span><button class="close-button" id="closeDetail" aria-label="Close">×</button></div><div id="detailBody" class="detail-body"></div><div id="detailMeta" class="detail-meta"></div><div class="detail-footer"><button class="detail-action" id="detailArchive">Archive</button><div><button class="detail-action danger" id="detailDelete">Delete</button><button class="save-button small-save" id="detailEdit">Edit <span>↗</span></button></div></div></dialog>
+  <div id="contextMenu" class="context-menu" hidden><button data-action="favorite">✳ <span>Favorite</span></button><button data-action="archive">▣ <span>Archive</span></button><button data-action="edit">✎ <span>Edit</span></button><button data-action="delete" class="danger">⌫ <span>Delete</span></button></div>
+  <script src="app.js" defer></script>
+</body>
+</html>
